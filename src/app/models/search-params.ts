@@ -1,9 +1,9 @@
 export class SearchParams {
-  query: string = "";
-  sort: string = "joined";
-  order: string = "desc";
-  perPage: number = 30;
-  page: number = 1;
+  query: string;
+  sort: string;
+  order: string;
+  perPage: number;
+  page: number;
 
   constructor(params?: Partial<SearchParams>) {
     if (params) {

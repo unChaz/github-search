@@ -1,7 +1,14 @@
 <div class="container">
   <div class="row">
-    <div class="col-12">
-      <h1>Search works!</h1>
+    <div class="col-12 pt-5">
+      <h1>Search GitHub users</h1>
+      <div class="input-group mt-3">
+        <input type="text" class="form-control" placeholder="Search GitHub users" aria-label="query" [(ngModel)]="params.query">
+        <button class="btn btn-outline-secondary" type="button" id="search-button" (click)="search()">Search</button>
+      </div>
+      <p class="mt-4" *ngIf="searchResults.totalCount > 0">
+        Showing {{ searchResults.users.length }} of {{ searchResults.totalCount }} results for "{{ currentQuery }}"
+      </p>
     </div>
   </div>
 </div>
