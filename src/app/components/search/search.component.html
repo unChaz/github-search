@@ -3,12 +3,48 @@
     <div class="col-12 pt-5">
       <h1>Search GitHub users</h1>
       <div class="input-group mt-3">
-        <input type="text" class="form-control" placeholder="Search GitHub users" aria-label="query" [(ngModel)]="params.query">
-        <button class="btn btn-outline-secondary" type="button" id="search-button" (click)="search()">Search</button>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search GitHub users"
+          aria-label="query"
+          [(ngModel)]="params.query"
+          (keyup.enter)="search()"
+          (change)="resetPagination()">
+        <button class="btn btn-primary" type="button" id="search-button" (click)="search()">Search</button>
       </div>
-      <p class="mt-4" *ngIf="searchResults.totalCount > 0">
-        Showing {{ searchResults.users.length }} of {{ searchResults.totalCount }} results for "{{ currentQuery }}"
-      </p>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="searchResults && searchResults.totalCount > 0">
+    <p class="mt-4">
+      Showing {{ searchResults.users.length }} of {{ searchResults.totalCount }} results for "{{ currentQuery }}"
+    </p>
+  </div>
+
+  <div class="row" *ngIf="searchResults && searchResults.totalCount > 0">
+    <div class="col-md-12">
+      <ngb-pagination
+        (pageChange)="search()"
+        [maxSize]="5"
+        [(page)]="params.page"
+        [pageSize]="params.perPage"
+        [collectionSize]="searchResults.totalCount">
+      </ngb-pagination>
+    </div>
+    <div class="col-md-12">
+      <div ngbDropdown class="dropdown mr-5 d-inline">
+        <button ngbDropdownToggle class="btn btn-outline-secondary">
+          {{ params.perPage }} items per page
+        </button>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown">
+          <button (click)="setPerPage(5)" class="dropdown-item">5</button>
+          <button (click)="setPerPage(10)" class="dropdown-item">10</button>
+          <button (click)="setPerPage(25)" class="dropdown-item">25</button>
+          <button (click)="setPerPage(50)" class="dropdown-item">50</button>
+          <button (click)="setPerPage(100)" class="dropdown-item">100</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

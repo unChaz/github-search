@@ -2,8 +2,8 @@ export class SearchParams {
   query: string;
   sort: string;
   order: string;
-  perPage: number;
-  page: number;
+  perPage: number = 30;
+  page: number = 1;
 
   constructor(params?: Partial<SearchParams>) {
     if (params) {

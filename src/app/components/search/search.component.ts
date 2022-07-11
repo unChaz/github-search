@@ -23,21 +23,29 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.params = new SearchParams(this.activatedRoute.snapshot.queryParams);
-    if (this.params.query.length > 0) {
-      // There's a query in the URL query params
-      this.search();
-    }
+    this.search();
   }
 
   search(): void {
-    this.setUrlQueryParams();
-    this.currentQuery = this.params.query; // So the message doesn't change when the query input changes.
-    this.githubService.search(this.params).subscribe((response: any) => {
-      this.params.query = "";
-      this.searchResults = response;
-    }, (error) => {
-      this.error = error;
-    });
+    if (this.params.query && this.params.query.length > 0) {
+      this.setUrlQueryParams();
+      this.currentQuery = this.params.query; // So the message doesn't change when the query input changes.
+      this.githubService.search(this.params).subscribe((response: any) => {
+        this.params.query = "";
+        this.searchResults = response;
+      }, (error) => {
+        this.error = error;
+      });
+    }
+  }
+
+  resetPagination(): void {
+    this.params.page = 1;
+  }
+
+  setPerPage(perPage: number): void {
+    this.params.perPage = perPage;
+    this.search();
   }
 
   private setUrlQueryParams(): void {
