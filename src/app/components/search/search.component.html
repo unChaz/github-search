@@ -17,9 +17,20 @@
   </div>
 
   <div class="row" *ngIf="searchResults && searchResults.totalCount > 0">
-    <p class="mt-4">
-      Showing {{ searchResults.users.length }} of {{ searchResults.totalCount }} results for "{{ currentQuery }}"
-    </p>
+    <div class="col-12">
+      <p class="mt-4">
+        Showing {{ searchResults.users.length }} of {{ searchResults.totalCount }} results for "{{ currentQuery }}"
+      </p>
+    </div>
+
+    <ng-container *ngFor="let user of searchResults.users">
+      <div class="col-12">
+        <div *ngIf="user.avatarUrl" class="user-avatar mr-2"
+             [style.background-image]='user.avatarUrl'>
+        </div>
+        <h4>{{ user.login }}</h4>
+      </div>
+    </ng-container>
   </div>
 
   <div class="row" *ngIf="searchResults && searchResults.totalCount > 0">
