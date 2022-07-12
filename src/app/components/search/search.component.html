@@ -71,11 +71,11 @@
       <div class="col-6 text-right">
         <span class="text-muted">{{ user.public_repos | number }} public repos</span>
       </div>
-    <hr>
-  </ng-container>
-</div>
+      <hr>
+    </ng-container>
+  </div>
 
-  <div class="row my-5" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
+  <div class="row my-5" *ngIf="searchResults && searchResults.totalCount > 0 && error.length == 0">
     <div class="col-md-6">
       <div ngbDropdown class="dropdown d-inline">
         <button ngbDropdownToggle class="btn btn-outline-secondary">

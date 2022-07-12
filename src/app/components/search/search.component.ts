@@ -24,6 +24,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.params = new SearchParams(this.activatedRoute.snapshot.queryParams);
+    this.search();
 
     //Clear the form if the route changes and query params are cleared.
     this.router.events.subscribe((event) => {
