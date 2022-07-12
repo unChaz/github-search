@@ -24,7 +24,7 @@ export class GitHubService {
 
   search(params: SearchParams) {
     const uri = `${this.endpoint}?${params.toQueryString()}`;
-    return this.httpClient.get<any>(uri, {}).pipe(
+    return this.httpClient.get<any>(uri, { headers: this.headers }).pipe(
       mergeMap(async (data) => {
         return new GitHubUserResponse(data.items, data.total_count);
       }

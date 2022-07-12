@@ -13,7 +13,7 @@ export class SearchComponent implements OnInit {
   currentQuery: string;
   params: SearchParams;
   searchResults: GitHubUserResponse;
-  error: any; // TODO: Create error model
+  error: string = "";
 
   constructor(
     private githubService: GitHubService,
@@ -31,10 +31,9 @@ export class SearchComponent implements OnInit {
       this.setUrlQueryParams();
       this.currentQuery = this.params.query; // So the message doesn't change when the query input changes.
       this.githubService.search(this.params).subscribe((response: any) => {
-        this.params.query = "";
         this.searchResults = response;
-      }, (error) => {
-        this.error = error;
+      }, (response) => {
+        this.error = response.error.message;
       });
     }
   }

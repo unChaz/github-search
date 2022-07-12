@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container search-container">
   <div class="row">
     <div class="col-12 pt-5">
       <h1>Search GitHub users</h1>
@@ -16,7 +16,16 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="searchResults && searchResults.totalCount > 0">
+  <ng-container *ngIf="error.length > 0">
+    <ngb-alert
+      type="danger"
+      class="w-100 text-center my-1"
+      (close)="error = ''">
+      {{ error }}
+    </ngb-alert>
+  </ng-container>
+
+  <div class="row" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
     <div class="col-12">
       <p class="mt-4">
         Showing {{ searchResults.users.length }} of {{ searchResults.totalCount }} results for "{{ currentQuery }}"
@@ -25,25 +34,17 @@
 
     <ng-container *ngFor="let user of searchResults.users">
       <div class="col-12">
-        <div *ngIf="user.avatarUrl" class="user-avatar mr-2"
-             [style.background-image]='user.avatarUrl'>
+        <div *ngIf="user.avatar_url" class="user-avatar mr-2"
+             [ngStyle]="{ 'background-image': 'url(' + user.avatar_url + ')' }">
         </div>
-        <h4>{{ user.login }}</h4>
+        <a [href]="user.html_url" target="_new" class="user-name align-middle">{{ user.login }}</a>
       </div>
+      <hr>
     </ng-container>
   </div>
 
-  <div class="row" *ngIf="searchResults && searchResults.totalCount > 0">
-    <div class="col-md-12">
-      <ngb-pagination
-        (pageChange)="search()"
-        [maxSize]="5"
-        [(page)]="params.page"
-        [pageSize]="params.perPage"
-        [collectionSize]="searchResults.totalCount">
-      </ngb-pagination>
-    </div>
-    <div class="col-md-12">
+  <div class="row my-5" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
+    <div class="col-md-6">
       <div ngbDropdown class="dropdown mr-5 d-inline">
         <button ngbDropdownToggle class="btn btn-outline-secondary">
           {{ params.perPage }} items per page
@@ -56,6 +57,16 @@
           <button (click)="setPerPage(100)" class="dropdown-item">100</button>
         </div>
       </div>
+    </div>
+    <div class="col-md-6">
+      <ngb-pagination
+        style="float:right;"
+        (pageChange)="search()"
+        [maxSize]="5"
+        [(page)]="params.page"
+        [pageSize]="params.perPage"
+        [collectionSize]="searchResults.totalCount">
+      </ngb-pagination>
     </div>
   </div>
 </div>
