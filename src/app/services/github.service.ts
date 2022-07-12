@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { SearchParams } from "@models/search-params";
 import { environment } from "@app/../environments/environment";
-import { mergeMap } from "rxjs";
+import { forkJoin, Observable } from "rxjs";
 import { GitHubUserResponse } from "@models/github-user-response";
+import { GitHubUser } from "@models/github-user";
 
 @Injectable({
   providedIn: 'root'
@@ -22,12 +23,21 @@ export class GitHubService {
     });
   }
 
-  search(params: SearchParams) {
+  search(params: SearchParams): Observable<GitHubUserResponse> {
     const uri = `${this.endpoint}?${params.toQueryString()}`;
-    return this.httpClient.get<any>(uri, { headers: this.headers }).pipe(
-      mergeMap(async (data) => {
-        return new GitHubUserResponse(data.items, data.total_count);
-      }
-    ));
+    return new Observable<GitHubUserResponse>((subscriber) => {
+      this.httpClient.get<any>(uri, { headers: this.headers }).subscribe((response) => {
+        forkJoin(response.items.map((user: GitHubUser) => {
+          return this.getUser(user.login);
+        })).subscribe((data: any) => {
+          subscriber.next(new GitHubUserResponse(data, response.total_count));
+        });
+      })
+    })
+  }
+
+  getUser(username: string): Observable<GitHubUser> {
+    const uri = `https://api.github.com/users/${username}`;
+    return this.httpClient.get<any>(uri, { headers: this.headers });
   }
 }

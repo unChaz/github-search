@@ -1,7 +1,6 @@
 <div class="container search-container">
   <div class="row">
     <div class="col-12 pt-5">
-      <h1>Search GitHub users</h1>
       <div class="input-group mt-3">
         <input
           type="text"
@@ -25,27 +24,60 @@
     </ngb-alert>
   </ng-container>
 
-  <div class="row" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
-    <div class="col-12">
-      <p class="mt-4">
+  <div class="row my-3" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
+    <div class="col-6 pt-2">
         Showing {{ searchResults.users.length }} of {{ searchResults.totalCount }} results for "{{ currentQuery }}"
-      </p>
     </div>
 
+    <div class="col-6">
+      <div ngbDropdown class="dropdown" style="float:right;">
+        <button ngbDropdownToggle class="btn btn-outline-secondary">
+          Sort: {{ sortLabel }}
+        </button>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown">
+          <button (click)="setSort('Best match', { sort: '', order: 'desc' })" class="dropdown-item">Best match</button>
+          <button (click)="setSort('Most followers', { sort: 'followers', order: 'desc' })" class="dropdown-item">Most followers</button>
+          <button (click)="setSort('Least followers', { sort: 'followers', order: 'asc' })" class="dropdown-item">Least followers</button>
+          <button (click)="setSort('Most repositories', { sort: 'repositories', order: 'desc' })" class="dropdown-item">Most repositories</button>
+          <button (click)="setSort('Least repositories', { sort: 'repositories', order: 'asc' })" class="dropdown-item">Least repositories</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
     <ng-container *ngFor="let user of searchResults.users">
       <div class="col-12">
         <div *ngIf="user.avatar_url" class="user-avatar mr-2"
              [ngStyle]="{ 'background-image': 'url(' + user.avatar_url + ')' }">
         </div>
-        <a [href]="user.html_url" target="_new" class="user-name align-middle">{{ user.login }}</a>
+        <a [href]="user.html_url" target="_new" class="user-name align-middle">{{ user.name || user.login }}</a>
+        <a [href]="user.html_url" target="_new" class="user-name user-login align-middle">{{ user.login }}</a>
+        <p *ngIf="user.bio" [innerHTML]="user.bio"></p>
       </div>
-      <hr>
-    </ng-container>
-  </div>
+
+      <div class="col-6">
+        <span class="text-muted"> {{ user.email }}</span>
+      </div>
+
+      <div class="col-6 text-right">
+        <span class="text-muted">{{ user.followers | number }} followers</span>
+      </div>
+
+      <div class="col-6">
+        <span class="text-muted">{{ user.location }}</span>
+      </div>
+
+      <div class="col-6 text-right">
+        <span class="text-muted">{{ user.public_repos | number }} public repos</span>
+      </div>
+    <hr>
+  </ng-container>
+</div>
 
   <div class="row my-5" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
     <div class="col-md-6">
-      <div ngbDropdown class="dropdown mr-5 d-inline">
+      <div ngbDropdown class="dropdown d-inline">
         <button ngbDropdownToggle class="btn btn-outline-secondary">
           {{ params.perPage }} items per page
         </button>

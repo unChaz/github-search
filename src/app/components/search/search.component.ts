@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GitHubService } from "@app/services/github.service";
 import { SearchParams } from "@models/search-params";
 import { GitHubUserResponse } from "@models/github-user-response";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 
 @Component({
   selector: 'app-search',
@@ -12,8 +12,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class SearchComponent implements OnInit {
   currentQuery: string;
   params: SearchParams;
-  searchResults: GitHubUserResponse;
+  searchResults: GitHubUserResponse | undefined;
   error: string = "";
+  sortLabel: string = "best match";
 
   constructor(
     private githubService: GitHubService,
@@ -23,14 +24,21 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.params = new SearchParams(this.activatedRoute.snapshot.queryParams);
-    this.search();
+
+    //Clear the form if the route changes and query params are cleared.
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd && this.activatedRoute.snapshot.queryParams["query"].length == 0) {
+        this.params.query = "";
+        this.searchResults = undefined;
+      }
+    });
   }
 
   search(): void {
     if (this.params.query && this.params.query.length > 0) {
       this.setUrlQueryParams();
       this.currentQuery = this.params.query; // So the message doesn't change when the query input changes.
-      this.githubService.search(this.params).subscribe((response: any) => {
+      this.githubService.search(this.params).subscribe((response) => {
         this.searchResults = response;
       }, (response) => {
         this.error = response.error.message;
@@ -44,6 +52,12 @@ export class SearchComponent implements OnInit {
 
   setPerPage(perPage: number): void {
     this.params.perPage = perPage;
+    this.search();
+  }
+
+  setSort(label: string, params: Partial<SearchParams>): void {
+    this.sortLabel = label;
+    Object.assign(this.params, params);
     this.search();
   }
 

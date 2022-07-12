@@ -13,6 +13,7 @@ export class GitHubUser {
   followers: number;
   following: number;
   created_at: Date;
+  public_repos: number;
 
   constructor(params?: Partial<GitHubUser>) {
     if (params) {

@@ -15,6 +15,7 @@
   -webkit-background-origin:border;
 }
 
+
 // copied from github stylesheets (mostly)
 .user-name {
   display: inline-block;
@@ -39,6 +40,11 @@
   }
 }
 
-.error-container {
+.user-login {
+  color: rgb(139, 148, 158);
+  font-weight: 400;
+}
 
+.text-right {
+  text-align: right;
 }
