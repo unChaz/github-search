@@ -45,7 +45,9 @@
     </div>
   </div>
 
-  <div class="row mb-5" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
+  <hr>
+
+  <div class="row" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
     <ng-container *ngFor="let user of searchResults.users">
       <div class="col-12">
         <div *ngIf="user.avatar_url" class="user-avatar mr-2"
@@ -68,7 +70,7 @@
         <span class="text-muted">{{ user.location }}</span>
       </div>
 
-      <div class="col-6 text-right">
+      <div class="col-6 text-right mb-2">
         <span class="text-muted">{{ user.public_repos | number }} public repos</span>
       </div>
       <hr>

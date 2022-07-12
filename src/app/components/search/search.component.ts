@@ -53,6 +53,7 @@ export class SearchComponent implements OnInit {
 
   setPerPage(perPage: number): void {
     this.params.perPage = perPage;
+    this.params.page = 1;
     this.search();
   }
 
