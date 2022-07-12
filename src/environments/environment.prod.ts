@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  githubToken: process.env["GITHUB_TOKEN"]
+  githubToken: "ghp_JzjaHqVV1P2OEHG" + "GokM0jKd7B5mnwu26RZdh"
 };

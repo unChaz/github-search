@@ -45,7 +45,7 @@
     </div>
   </div>
 
-  <hr>
+  <hr *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
 
   <div class="row" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
     <ng-container *ngFor="let user of searchResults.users">
@@ -55,7 +55,7 @@
         </div>
         <a [href]="user.html_url" target="_new" class="user-name align-middle">{{ user.name || user.login }}</a>
         <a [href]="user.html_url" target="_new" class="user-name user-login align-middle">{{ user.login }}</a>
-        <p *ngIf="user.bio" [innerHTML]="user.bio"></p>
+        <p *ngIf="user.bio" [innerHTML]="user.bio" class="w-100 text-wrap"></p>
       </div>
 
       <div class="col-6">
