@@ -50,6 +50,7 @@
   <div class="row" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
     <ng-container *ngFor="let user of searchResults.users">
       <div class="col-12">
+        <small class="text-muted" style="float:right">Last updated: {{ user.updated_at | date }}</small>
         <div *ngIf="user.avatar_url" class="user-avatar mr-2"
              [ngStyle]="{ 'background-image': 'url(' + user.avatar_url + ')' }">
         </div>

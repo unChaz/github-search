@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { SearchParams } from "@models/search-params";
-import { environment } from "@app/../environments/environment";
 import { forkJoin, Observable } from "rxjs";
 import { GitHubUserResponse } from "@models/github-user-response";
 import { GitHubUser } from "@models/github-user";
@@ -10,23 +9,18 @@ import { GitHubUser } from "@models/github-user";
   providedIn: 'root'
 })
 export class GitHubService {
-
-  private readonly headers: HttpHeaders;
-  private endpoint: string = "https://api.github.com/search/users";
+  // In order to obscure my API key from the front-end, I built a proxy using AWS Lambda and GatewayAPI.
+  // The lambda function makes the request on behalf of the user with my API credentials.
+  private endpoint: string = "https://mswek9he34.execute-api.us-east-1.amazonaws.com/github-search";
 
   constructor(
     private httpClient: HttpClient,
-    ) {
-    this.headers = new HttpHeaders({
-      Accept: "application/vnd.github+json",
-      Authorization: `token ${environment.githubToken}`
-    });
-  }
+    ) { }
 
   search(params: SearchParams): Observable<GitHubUserResponse> {
-    const uri = `${this.endpoint}?${params.toQueryString()}`;
+    const uri = `${this.endpoint}/search?${params.toQueryString()}`;
     return new Observable<GitHubUserResponse>((subscriber) => {
-      this.httpClient.get<any>(uri, { headers: this.headers }).subscribe((response) => {
+      this.httpClient.get<any>(uri).subscribe((response) => {
         forkJoin(response.items.map((user: GitHubUser) => {
           return this.getUser(user.login);
         })).subscribe((data: any) => {
@@ -37,7 +31,7 @@ export class GitHubService {
   }
 
   getUser(username: string): Observable<GitHubUser> {
-    const uri = `https://api.github.com/users/${username}`;
-    return this.httpClient.get<any>(uri, { headers: this.headers });
+    const uri = `${this.endpoint}/users?username=${username}`;
+    return this.httpClient.get<any>(uri);
   }
 }
