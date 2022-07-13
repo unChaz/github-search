@@ -10,7 +10,9 @@
           [(ngModel)]="params.query"
           (keyup.enter)="search()"
           (change)="resetPagination()">
-        <button class="btn btn-primary" type="button" id="search-button" (click)="search()">Search</button>
+        <button class="btn btn-primary" type="button" id="search-button" (click)="search()" [disabled]="loading">
+          Search
+        </button>
       </div>
     </div>
   </div>
@@ -24,14 +26,14 @@
     </ngb-alert>
   </ng-container>
 
-  <div class="row my-3" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
+  <div class="row my-3 fade-in" *ngIf="displayResults && !loading">
     <div class="col-6 pt-2">
         Showing {{ searchResults.users.length }} of {{ searchResults.totalCount }} results for "{{ currentQuery }}"
     </div>
 
     <div class="col-6">
       <div ngbDropdown class="dropdown" style="float:right;">
-        <button ngbDropdownToggle class="btn btn-outline-secondary">
+        <button ngbDropdownToggle class="btn btn-secondary" [disabled]="loading">
           Sort: {{ sortLabel }}
         </button>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown">
@@ -45,9 +47,15 @@
     </div>
   </div>
 
-  <hr *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
+  <div class="text-center" *ngIf="loading">
+    <span class="spinner-border text-primary mt-5" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </span>
+  </div>
 
-  <div class="row" *ngIf="searchResults && searchResults.totalCount > 0 && error.length  == 0">
+  <hr class="fade-in" *ngIf="displayResults && !loading">
+
+  <div class="row fade-in" *ngIf="displayResults && !loading">
     <ng-container *ngFor="let user of searchResults.users">
       <div class="col-12">
         <small class="text-muted" style="float:right">Last updated: {{ user.updated_at | date }}</small>
@@ -68,7 +76,7 @@
       </div>
 
       <div class="col-6">
-        <span class="text-muted">{{ user.location }}</span>
+        <span class="text-muted text-wrap">{{ user.location }}</span>
       </div>
 
       <div class="col-6 text-right mb-2">
@@ -78,10 +86,10 @@
     </ng-container>
   </div>
 
-  <div class="row my-5" *ngIf="searchResults && searchResults.totalCount > 0 && error.length == 0">
+  <div class="row my-5" *ngIf="displayResults && !loading">
     <div class="col-md-6">
       <div ngbDropdown class="dropdown d-inline">
-        <button ngbDropdownToggle class="btn btn-outline-secondary">
+        <button ngbDropdownToggle class="btn btn-secondary">
           {{ params.perPage }} items per page
         </button>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown">
@@ -96,6 +104,7 @@
     <div class="col-md-6">
       <ngb-pagination
         style="float:right;"
+        [disabled]="loading"
         (pageChange)="search()"
         [maxSize]="5"
         [(page)]="params.page"

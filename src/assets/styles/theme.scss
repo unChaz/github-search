@@ -1,0 +1,21 @@
+body {
+  background: #1e404f;
+  color: white;
+  font-family: Montserrat;
+}
+
+.text-muted {
+  color: rgb(139, 148, 158) !important;
+}
+
+.page-link {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+}
+
+.page-item.disabled .page-link {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: #888888;
+}

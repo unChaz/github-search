@@ -12,9 +12,11 @@ import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 export class SearchComponent implements OnInit {
   currentQuery: string;
   params: SearchParams;
-  searchResults: GitHubUserResponse | undefined;
+  searchResults: GitHubUserResponse;
   error: string = "";
   sortLabel: string = "best match";
+  loading = false;
+  displayResults = false;
 
   constructor(
     private githubService: GitHubService,
@@ -28,21 +30,27 @@ export class SearchComponent implements OnInit {
 
     //Clear the form if the route changes and query params are cleared.
     this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd && this.activatedRoute.snapshot.queryParams["query"].length == 0) {
+      const query = this.activatedRoute.snapshot.queryParams['query'];
+      if (event instanceof NavigationEnd && !query) {
         this.params.query = "";
-        this.searchResults = undefined;
+       this.displayResults = false;
       }
     });
   }
 
   search(): void {
     if (this.params.query && this.params.query.length > 0) {
+      this.loading = true;
       this.setUrlQueryParams();
       this.currentQuery = this.params.query; // So the message doesn't change when the query input changes.
       this.githubService.search(this.params).subscribe((response) => {
         this.searchResults = response;
+        this.loading = false;
+        this.displayResults = this.searchResults.totalCount > 0;
       }, (response) => {
         this.error = response.error.message;
+        this.loading = false;
+        this.displayResults = false;
       });
     }
   }

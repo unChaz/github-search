@@ -1,7 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "node_modules/bootstrap/scss/bootstrap";
+@import "src/assets/styles/animations";
+@import "src/assets/styles/fonts";
+@import "src/assets/styles/theme";

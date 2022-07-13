@@ -33,6 +33,13 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/styles/",
+                "node_modules/bootstrap/scss/",
+                "node_modules/"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
