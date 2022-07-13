@@ -14,7 +14,7 @@ export class SearchComponent implements OnInit {
   params: SearchParams;
   searchResults: GitHubUserResponse;
   error: string = "";
-  sortLabel: string = "best match";
+  sortLabel: string = "Best match";
   loading = false;
   displayResults = false;
 

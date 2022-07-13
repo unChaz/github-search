@@ -7,6 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchComponent } from './components/search/search.component';
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { GitHubService } from "@app/services/github.service";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     NgbModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [GitHubService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
