@@ -87,8 +87,8 @@
   </div>
 
   <div class="row my-5" *ngIf="displayResults && !loading">
-    <div class="col-md-6">
-      <div ngbDropdown class="dropdown d-inline">
+    <div class="col-md-6 py-2 pagination-col-left">
+      <div ngbDropdown class="dropdown d-inline pagination-input">
         <button ngbDropdownToggle class="btn btn-secondary">
           {{ params.perPage }} items per page
         </button>
@@ -101,9 +101,9 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 py-2 pagination-col-right" *ngIf="searchResults.totalCount > params.perPage">
       <ngb-pagination
-        style="float:right;"
+        class="pagination-input"
         [disabled]="loading"
         (pageChange)="search()"
         [maxSize]="5"

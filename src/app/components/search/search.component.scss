@@ -48,3 +48,21 @@
 .text-wrap {
   word-break: break-word;
 }
+
+.pagination-input {
+  display: inline-block;
+}
+
+.pagination-col-left {
+  text-align: left;
+  @media (max-width: 766px) {
+    text-align: center;
+  }
+}
+
+.pagination-col-right {
+  text-align: right;
+  @media (max-width: 766px) {
+    text-align: center;
+  }
+}
