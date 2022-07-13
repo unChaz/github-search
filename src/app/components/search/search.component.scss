@@ -4,49 +4,8 @@
   max-width: 800px;
 }
 
-.user-avatar {
-  display: inline-block;
-  height: 30px;
-  width: 30px;
-  min-height: 30px;
-  min-width: 30px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border: 2px solid gray;
-  border-radius: 25px;
-  -webkit-background-origin:border;
-}
-
-.user-name {
-  display: inline-block;
-  color: rgb(88, 166, 255);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 30px;
-  text-decoration: none;
-  cursor: pointer;
-  margin-left: 10px;
-  margin-top: 0;
-  padding-bottom: 15px;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-.user-login {
-  color: rgb(139, 148, 158);
-  font-weight: 400;
-}
-
 .text-right {
   text-align: right;
-}
-
-.text-wrap {
-  word-break: break-word;
 }
 
 .pagination-input {

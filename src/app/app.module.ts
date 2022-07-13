@@ -8,10 +8,12 @@ import { SearchComponent } from './components/search/search.component';
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { GitHubService } from "@app/services/github.service";
+import { GitHubUserCard } from "@app/components/github-user/github-user-card.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    GitHubUserCard,
     SearchComponent
   ],
   imports: [

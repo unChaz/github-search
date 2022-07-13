@@ -1,6 +1,6 @@
 <div class="container search-container">
   <div class="row">
-    <div class="col-12 pt-5">
+    <div class="col-12 pt-3">
       <div class="input-group mt-3">
         <input
           type="text"
@@ -53,34 +53,9 @@
 
   <hr class="fade-in" *ngIf="displayResults && !loading">
 
-  <div class="row fade-in" *ngIf="displayResults && !loading">
+  <div class="fade-in" *ngIf="displayResults && !loading">
     <ng-container *ngFor="let user of searchResults.users">
-      <div class="col-12">
-        <small class="text-muted" style="float:right">Last updated: {{ user.updated_at | date }}</small>
-        <div *ngIf="user.avatar_url" class="user-avatar mr-2"
-             [ngStyle]="{ 'background-image': 'url(' + user.avatar_url + ')' }">
-        </div>
-        <a [href]="user.html_url" target="_new" class="user-name align-middle">{{ user.name || user.login }}</a>
-        <a [href]="user.html_url" target="_new" class="user-name user-login align-middle">{{ user.login }}</a>
-        <p *ngIf="user.bio" [innerHTML]="user.bio" class="w-100 text-wrap"></p>
-      </div>
-
-      <div class="col-6">
-        <span class="text-muted"> {{ user.email }}</span>
-      </div>
-
-      <div class="col-6 text-right">
-        <span class="text-muted">{{ user.followers | number }} followers</span>
-      </div>
-
-      <div class="col-6">
-        <span class="text-muted text-wrap">{{ user.location }}</span>
-      </div>
-
-      <div class="col-6 text-right mb-2">
-        <span class="text-muted">{{ user.public_repos | number }} public repos</span>
-      </div>
-      <hr>
+      <github-user-card [user]="user"></github-user-card>
     </ng-container>
   </div>
 

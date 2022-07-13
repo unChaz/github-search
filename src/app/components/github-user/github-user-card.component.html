@@ -1,0 +1,34 @@
+<div class="row mx-1">
+  <div class="col-12 text-wrap">
+    <div *ngIf="user.avatar_url" class="user-avatar mr-2"
+         [ngStyle]="{ 'background-image': 'url(' + user.avatar_url + ')' }">
+    </div>
+
+    <a [href]="user.html_url" target="_new" class="user-name align-middle">{{ user.name || user.login }}</a>
+    <a [href]="user.html_url" target="_new" class="user-name user-login align-middle">{{ user.login }}</a>
+
+    <small class="text-muted updated-at-timestamp">Last updated: {{ user.updated_at | date }}</small>
+  </div>
+
+  <div class="col-12">
+    <p *ngIf="user.bio" [innerHTML]="user.bio" class="text-wrap"></p>
+  </div>
+
+  <div class="col-6">
+    <span class="text-muted"> {{ user.email }}</span>
+  </div>
+
+  <div class="col-6 text-right">
+    <span class="text-muted">{{ user.followers | number }} followers</span>
+  </div>
+
+  <div class="col-6">
+    <span class="text-muted text-wrap">{{ user.location }}</span>
+  </div>
+
+  <div class="col-6 text-right">
+    <span class="text-muted">{{ user.public_repos | number }} public repos</span>
+  </div>
+</div>
+
+<hr>
