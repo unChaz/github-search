@@ -9,7 +9,7 @@ function getRequest(query) {
     method: 'GET',
     port: 443,
     headers: {
-      'Authorization': "token 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",
+      'Authorization': "token <INSERT_GITHUB_API_TOKEN>",
       'Accept': "application/vnd.github+json",
       'User-Agent': "unChaz"
     }
