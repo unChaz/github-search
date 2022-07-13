@@ -63,7 +63,9 @@ export class SearchComponent implements OnInit {
   }
 
   onQueryChange(): void {
-    this.queryTextChanged.next(this.params.query);
+    if (this.params.query !== this.currentQuery) {
+      this.queryTextChanged.next(this.params.query);
+    }
   }
 
   resetPagination(): void {
