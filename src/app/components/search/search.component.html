@@ -4,15 +4,13 @@
       <div class="input-group mt-3">
         <input
           type="text"
-          class="form-control"
+          class="form-control form-control-lg"
           placeholder="Search GitHub users"
           aria-label="query"
+          (keyup)="onQueryChange()"
           [(ngModel)]="params.query"
           (keyup.enter)="search()"
           (change)="resetPagination()">
-        <button class="btn btn-primary" type="button" id="search-button" (click)="search()" [disabled]="loading">
-          Search
-        </button>
       </div>
     </div>
   </div>
@@ -32,7 +30,7 @@
     </small>
 
     <div class="col-6 col-md-4 text-right">
-      <div ngbDropdown class="dropdown">
+      <div ngbDropdown class="dropdown" *ngIf="searchResults.totalCount > 1">
         <button ngbDropdownToggle class="btn btn-secondary btn-sm" [disabled]="loading">
           Sort: {{ sortLabel }}
         </button>
@@ -88,7 +86,7 @@
 
   <div class="row my-5" *ngIf="displayResults && !loading">
     <div class="col-md-6 py-2 pagination-col-left">
-      <div ngbDropdown class="dropdown d-inline pagination-input">
+      <div ngbDropdown class="dropdown d-inline pagination-input" *ngIf="searchResults.totalCount > 5">
         <button ngbDropdownToggle class="btn btn-secondary btn-sm">
           {{ params.perPage }} items per page
         </button>

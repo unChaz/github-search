@@ -3,6 +3,7 @@ import { GitHubService } from "@app/services/github.service";
 import { SearchParams } from "@models/search-params";
 import { GitHubUserResponse } from "@models/github-user-response";
 import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
+import { debounceTime, Subject } from "rxjs";
 
 @Component({
   selector: 'app-search',
@@ -17,6 +18,7 @@ export class SearchComponent implements OnInit {
   sortLabel: string = "Best match";
   loading = false;
   displayResults = false;
+  queryTextChanged = new Subject<string>();
 
   constructor(
     private githubService: GitHubService,
@@ -27,6 +29,11 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.params = new SearchParams(this.activatedRoute.snapshot.queryParams);
     this.search();
+    this.queryTextChanged.pipe(
+      debounceTime(500),
+    ).subscribe(() => {
+      this.search();
+    });
 
     //Clear the form if the route changes and query params are cleared.
     this.router.events.subscribe((event) => {
@@ -53,6 +60,10 @@ export class SearchComponent implements OnInit {
         this.displayResults = false;
       });
     }
+  }
+
+  onQueryChange(): void {
+    this.queryTextChanged.next(this.params.query);
   }
 
   resetPagination(): void {
